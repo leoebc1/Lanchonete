@@ -2,12 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package ProjetoMVC.DAO;
+package com.example.lancheTDS.dao;
 
 /**
  *
- * @author LEONARDOESLABAOBARBO
+ * @author Windows
  */
-public class ProdutoDAO {
+public class ProductDAO {
     
 }
