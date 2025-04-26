@@ -4,38 +4,39 @@
  */
 package ProjetoMVC.Controller;
 
-import ProjetoMVC.DAO.UsuarioDAO;
-import ProjetoMVC.Model.Usuario;
+
+import ProjetoMVC.DAO.UserDAO;
+import ProjetoMVC.Model.User;
 
 /**
  *
  * @author LEONARDOESLABAOBARBO
  */
-public class UsuarioController {
+public class UserController {
 
-    private static UsuarioDAO usuarioDAO = new UsuarioDAO();
+    private static UserDAO userDAO = new UserDAO();
 
-    public static boolean registrarUsuario(String username, String senha) {
-        Usuario usuario = new Usuario(username, senha);
-        return usuarioDAO.registrarUsuario(usuario);
+    public static boolean registerUser(String username, String password) {
+        User user = new User(username, password);
+        return userDAO.registerUser(user);
     }
 
-    public static Usuario validarLogin(String username, char[] charSenha) {
-        String senha = new String(charSenha);
-        Usuario usuario = new Usuario(username, senha);
-        if (usuarioDAO.validarLogin(usuario)) {
-            return usuario;
+    public static User validateLogin(String username, char[] passwordChars) {
+        String password = new String(passwordChars);
+        User user = new User(username, password);
+        if (userDAO.validateLogin(user)) {
+            return user;
         }
         return null;
-
     }
 
-    public static boolean atualizarSenha(String email, char[] charSenha){
-        String novaSenha = new String(charSenha);
-        if (email.isEmpty() || novaSenha.isEmpty()){
+    public static boolean updatePassword(String email, char[] passwordChars) {
+        String newPassword = new String(passwordChars);
+        if (email.isEmpty() || newPassword.isEmpty()) {
             return false;
         }
-        
-        return usuarioDAO.atualizarSenha(email, novaSenha);
+
+        return userDAO.updatePassword(email, newPassword);
     }
 }
+

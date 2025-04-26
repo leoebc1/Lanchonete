@@ -14,7 +14,7 @@ import java.sql.Statement;
  *
  * @author LEONARDOESLABAOBARBO
  */
-public class Conexao {
+public class ConnectionDB {
 
     private static final Dotenv dotenv = Dotenv.load();
     private static Connection connection;
@@ -22,11 +22,12 @@ public class Conexao {
     private static final String DB_USER = dotenv.get("DB_USER");
     private static final String DB_PASSWORD = dotenv.get("DB_PASSWORD");
 
-    public static Connection conectar() {
+    public static Connection connect() {
         try {
             if(connection == null || connection.isClosed()){
                 connection = DriverManager.getConnection(URL, DB_USER, DB_PASSWORD);
-                criarTabela();
+                createTableUsers();
+                createTableProducts();
                 System.out.println("Conectou aleluia");
             }
         } catch (SQLException error) {
@@ -37,16 +38,30 @@ public class Conexao {
         return connection;
     }
 
-    private static void criarTabela() {
-        String sql = "CREATE TABLE IF NOT EXISTS usuarios ("
+    private static void createTableUsers() {
+        String sql = "CREATE TABLE IF NOT EXISTS users ("
                 + "id INT AUTO_INCREMENT PRIMARY KEY, "
-                + "usuario VARCHAR(255) NOT NULL UNIQUE, "
-                + "senha VARCHAR(255) NOT NULL)";
+                + "nickname VARCHAR(255) NOT NULL UNIQUE, "
+                + "password VARCHAR(255) NOT NULL)";
         try (Statement stmt = connection.createStatement()) {
             stmt.execute(sql);
         } catch (SQLException e){
                 throw new RuntimeException("Erro ao criar tabela");
                 }
+    }
+    
+    private static void createTableProducts() {
+        String sql = "CREATE TABLE IF NOT EXISTS products ("
+                + "id INT AUTO_INCREMENT PRIMARY KEY, "
+                + "name VARCHAR(255) NOT NULL, "
+                + "category VARCHAR(255) NOT NULL, "
+                + "price DOUBLE NOT NULL, "
+                + "description VARCHAR(1000) NOT NULL)" ;
+        try (Statement stmt = connection.createStatement()) {
+            stmt.execute(sql);
+        } catch (SQLException e){
+            throw new RuntimeException("Erro ao criar tabela");
+        }
     }
 
 }

@@ -4,8 +4,9 @@
  */
 package ProjetoMVC.DAO;
 
-import ProjetoMVC.Database.Conexao;
-import ProjetoMVC.Model.Usuario;
+
+import ProjetoMVC.Database.ConnectionDB;
+import ProjetoMVC.Model.User;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,16 +17,17 @@ import org.mindrot.jbcrypt.BCrypt;
  *
  * @author LEONARDOESLABAOBARBO
  */
-public class UsuarioDAO {
+public class UserDAO {
 
-    public boolean registrarUsuario(Usuario usuario) {
-        String sql = "INSERT INTO usuarios (usuario, senha) VALUES (?, ?)";
-        String senhaHash = BCrypt.hashpw(usuario.getSenha(), BCrypt.gensalt());
+    public boolean registerUser(User user) {
+        String sql = "INSERT INTO users (nickname, password) VALUES (?, ?)";
+        String passwordHash = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());
 
-        try (Connection conn = Conexao.conectar(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (Connection conn = ConnectionDB.connect();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            stmt.setString(1, usuario.getEmail());
-            stmt.setString(2, senhaHash);
+            stmt.setString(1, user.getEmail());
+            stmt.setString(2, passwordHash);
             stmt.executeUpdate();
             return true;
         } catch (SQLException e) {
@@ -34,31 +36,33 @@ public class UsuarioDAO {
         }
     }
 
-    public boolean validarLogin(Usuario usuario) {
-        String sql = "SELECT senha FROM usuarios WHERE usuario = ?";
+    public boolean validateLogin(User user) {
+        String sql = "SELECT password FROM users WHERE nickname = ?";
 
-        try (Connection conn = Conexao.conectar(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (Connection conn = ConnectionDB.connect();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            stmt.setString(1, usuario.getEmail());
+            stmt.setString(1, user.getEmail());
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
-                String senhaHash = rs.getString("senha");
-                return BCrypt.checkpw(usuario.getSenha(), senhaHash);
+                String storedHash = rs.getString("password");
+                return BCrypt.checkpw(user.getPassword(), storedHash);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return false;
     }
-    
-    public boolean atualizarSenha(String email, String novaSenha) {
-        String sql = "UPDATE usuarios SET senha = ? WHERE usuario = ?";
-        String senhaHash = BCrypt.hashpw(novaSenha, BCrypt.gensalt());
 
-        try (Connection conn = Conexao.conectar(); 
+    public boolean updatePassword(String email, String newPassword) {
+        String sql = "UPDATE users SET password = ? WHERE nickname = ?";
+        String passwordHash = BCrypt.hashpw(newPassword, BCrypt.gensalt());
+
+        try (Connection conn = ConnectionDB.connect();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, senhaHash);
+
+            stmt.setString(1, passwordHash);
             stmt.setString(2, email);
             return stmt.executeUpdate() > 0;
         } catch (SQLException e) {
@@ -67,3 +71,4 @@ public class UsuarioDAO {
         }
     }
 }
+

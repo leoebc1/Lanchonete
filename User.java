@@ -8,14 +8,14 @@ package ProjetoMVC.Model;
  *
  * @author LEONARDOESLABAOBARBO
  */
-public class Usuario {
+public class User {
     private int id;
     private String email;
-    private String senha;
+    private String password;
 
-    public Usuario(String email, String senha) {
+    public User(String email, String password) {
         this.email = email;
-        this.senha = senha;
+        this.password = password;
     }
 
     public int getId() {
@@ -26,8 +26,8 @@ public class Usuario {
         return email;
     }
 
-    public String getSenha() {
-        return senha;
+    public String getPassword() {
+        return password;
     }
 
     public void setId(int id) {
@@ -38,9 +38,10 @@ public class Usuario {
         this.email = email;
     }
 
-    public void setSenha(String senha) {
-        this.senha = senha;
+    public void setPassword(String password) {
+        this.password = password;
     }
-    
-    
 }
+
+    
+   

@@ -4,8 +4,8 @@
  */
 package ProjetoMVC.View;
 
-import ProjetoMVC.Controller.UsuarioController;
-import ProjetoMVC.Model.Usuario;
+import ProjetoMVC.Controller.UserController;
+import ProjetoMVC.Model.User;
 import javax.swing.JOptionPane;
 
 /**
@@ -97,8 +97,9 @@ public class TelaLogin extends javax.swing.JFrame {
                         .addGap(67, 67, 67)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnEntrar)
-                    .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(txtSenha, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(txtUsuario, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 71, Short.MAX_VALUE)))
                 .addGap(108, 108, 108))
         );
         jPanel1Layout.setVerticalGroup(
@@ -139,7 +140,7 @@ public class TelaLogin extends javax.swing.JFrame {
         String username = txtUsuario.getText().trim();
         String password = new String(txtSenha.getPassword()).trim();
         
-        if(UsuarioController.registrarUsuario(username, password)) {
+        if(UserController.registerUser(username, password)) {
             JOptionPane.showMessageDialog(this, "Registro fazido legal");
         } else {
             JOptionPane.showMessageDialog(this, "Erro ao registrar");
@@ -149,12 +150,12 @@ public class TelaLogin extends javax.swing.JFrame {
     private void btnEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntrarActionPerformed
         String username = txtUsuario.getText().trim();
         char[] password = txtSenha.getPassword();
-        Usuario user = UsuarioController.validarLogin(username, password);
+        User user = UserController.validateLogin(username, password);
         
         if(user != null){
             JOptionPane.showMessageDialog(this, "Bem vindo(a)" + username);
-            TelaUser telaUser = new TelaUser(user.getEmail());
-            telaUser.setVisible(true);
+            MainView mainView = new MainView(user.getEmail());
+            mainView.setVisible(true);
             this.dispose();
         } else {
             JOptionPane.showMessageDialog(this, "Login incorreto seu bosta");

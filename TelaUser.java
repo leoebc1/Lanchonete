@@ -4,8 +4,8 @@
  */
 package ProjetoMVC.View;
 
-import ProjetoMVC.Controller.UsuarioController;
-import ProjetoMVC.Model.Usuario;
+import ProjetoMVC.Controller.UserController;
+import ProjetoMVC.Model.User;
 import javax.swing.JOptionPane;
 
 /**
@@ -123,16 +123,17 @@ public class TelaUser extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    
     private void btnAtualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtualizarActionPerformed
-        String email = txtUsuario.getText();
+        /*String email = txtUsuario.getText();
         
-        boolean sucesso = UsuarioController.atualizarSenha(email, txtSenha.getPassword());
+        boolean sucesso = UserController.updatePassword(email, txtSenha.getPassword());
         
         if(sucesso){
-            JOptionPane showMessageDialog(this, "Senha atualizada com sucesso");
+            JOptionPane.showMessageDialog(this, "Senha atualizada com sucesso");
         } else {
-            JOptionPane showMessageDialog(this, "Erro ao atualizar a senha");
-        }
+            JOptionPane.showMessageDialog(this, "Erro ao atualizar a senha");
+        }*/
         
     }//GEN-LAST:event_btnAtualizarActionPerformed
 
